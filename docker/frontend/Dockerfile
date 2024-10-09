@@ -1,20 +1,24 @@
-FROM node:lts as builder
+FROM node:lts as build-stage
 
 WORKDIR /frontend
 
 COPY . .
 
+RUN npm install
+
 RUN npm run build
 
-# Nuxt 3 production
-FROM node:lts
+RUN rm -rf node_modules && \
+  NODE_ENV=production npm install \
+  --prefer-offline \
+  --pure-lockfile \
+  --non-interactive \
+  --production=true
+
+FROM node:lts as prod-stage
 
 WORKDIR /frontend
 
-COPY --from=builder /frontend/.output  /frontend/.output
-
-ENV NITRO_PORT=3000
-
-EXPOSE 3000
+COPY --from=build-stage /frontend.output/  ./.output/
 
 CMD [ "node", ".output/server/index.mjs" ]

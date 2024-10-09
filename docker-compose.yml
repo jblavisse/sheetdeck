@@ -10,6 +10,18 @@ services:
     env_file:
       - stack.env
     pull_policy: build
+  nuxt:
+    container_name: sheetdeck-frontend
+    build:
+      context: ./
+      dockerfile: ./docker/frontend/Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    volumes:
+      - ./:/frontend
 #   database:
 #     container_name: sheetdeck-database
 #     image: mysql:latest

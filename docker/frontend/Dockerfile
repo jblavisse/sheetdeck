@@ -1,24 +1,23 @@
+# Étape 1: Construction de l'application
 FROM node:lts as build-stage
 
 WORKDIR /frontend
 
-COPY . .
-
 RUN npm install
+
+COPY . .
 
 RUN npm run build
 
-RUN rm -rf node_modules && \
-  NODE_ENV=production npm install \
-  --prefer-offline \
-  --pure-lockfile \
-  --non-interactive \
-  --production=true
-
+# Étape 2: Création de l'image de production
 FROM node:lts as prod-stage
 
 WORKDIR /frontend
 
-COPY --from=build-stage /frontend.output/  ./.output/
+COPY --from=build-stage /frontend/.output /frontend/.output
+COPY --from=build-stage /frontend/node_modules /frontend/node_modules
+COPY --from=build-stage /frontend/package*.json ./
+
+EXPOSE 3000
 
 CMD [ "node", ".output/server/index.mjs" ]

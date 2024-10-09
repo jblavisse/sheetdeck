@@ -18,6 +18,8 @@ WORKDIR /frontend
 
 COPY --from=build-stage /frontend/.output /frontend/.output
 COPY --from=build-stage /frontend/package*.json ./
+COPY --from=build-stage /frontend/.nuxt /frontend/.nuxt
+COPY --from=build-stage /frontend/public /frontend/public
 RUN npm install --omit=dev
 
 EXPOSE 3000

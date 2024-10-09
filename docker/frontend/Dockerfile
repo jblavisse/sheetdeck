@@ -17,8 +17,8 @@ FROM node:20 as prod-stage
 WORKDIR /frontend
 
 COPY --from=build-stage /frontend/.output /frontend/.output
-COPY --from=build-stage /frontend/node_modules /frontend/node_modules
 COPY --from=build-stage /frontend/package*.json ./
+RUN npm install --omit=dev
 
 EXPOSE 3000
 

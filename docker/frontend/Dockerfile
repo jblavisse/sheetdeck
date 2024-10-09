@@ -1,5 +1,5 @@
 # Étape 1: Construction de l'application
-FROM node:lts as build-stage
+FROM node:20 as build-stage
 
 WORKDIR /frontend
 
@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 # Étape 2: Création de l'image de production
-FROM node:lts as prod-stage
+FROM node:20 as prod-stage
 
 WORKDIR /frontend
 

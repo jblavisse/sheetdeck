@@ -12,7 +12,7 @@ COPY ./frontend /frontend
 RUN npm run build
 
 # Étape 2: Création de l'image de production
-FROM node:20 as prod-stage
+FROM node:20-slim as prod-stage
 
 WORKDIR /frontend
 

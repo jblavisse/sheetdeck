@@ -1,13 +1,13 @@
 # Étape 1: Construction de l'application
-FROM node:lts as build-stage
+FROM node:16 as build-stage
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+COPY frontend/package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY frontend/. .
 
 RUN npm run build
 

@@ -9,7 +9,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm build && npm generate
+RUN npm run build && npm run generate
 
 # Étape 2: Création de l'image de production
 FROM nginx:alpine as production-stage

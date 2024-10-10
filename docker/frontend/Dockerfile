@@ -16,7 +16,7 @@ FROM nginx:alpine as production-stage
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY ./docker/frontend/nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker/frontend/nginx/default.conf /etc/nginx/conf.d
 
 COPY --from=build-stage /app/.output /usr/share/nginx/html
 

@@ -1,5 +1,5 @@
 # Étape 1: Construction de l'application
-FROM node:16 as build-stage
+FROM node:lts as build-stage
 
 WORKDIR /app
 

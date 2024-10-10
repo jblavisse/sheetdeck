@@ -1,27 +1,25 @@
 # Étape 1: Construction de l'application
 FROM node:20 as build-stage
 
-WORKDIR /frontend
+WORKDIR /app
 
-COPY ./frontend/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
-COPY ./frontend /frontend
+COPY . .
 
-RUN npm run build
+RUN npm build && npm generate
 
 # Étape 2: Création de l'image de production
-FROM node:20-slim as prod-stage
+FROM nginx:1.21.1-alpine as production-stage
 
-WORKDIR /frontend
+RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build-stage /frontend/.output /frontend/.output
-COPY --from=build-stage /frontend/package*.json ./
-COPY --from=build-stage /frontend/.nuxt /frontend/.nuxt
-COPY --from=build-stage /frontend/public /frontend/public
-RUN npm install --omit=dev
+COPY ./nginx/default.conf /etc/nginx/conf.d
+
+COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 EXPOSE 3000
 
-CMD [ "node", ".output/server/index.mjs" ]
+CMD ["nginx", "-g", "daemon off;"]

@@ -9,14 +9,14 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build && npm run generate
+RUN npm run build
 
 # Étape 2: Création de l'image de production
 FROM nginx:alpine as production-stage
 
 RUN rm -rf /usr/share/nginx/html/*
 
-#COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+COPY ./docker/frontend/nginx/default.conf /etc/nginx/conf.d/default.conf
 
 COPY --from=build-stage /app/.output /usr/share/nginx/html
 

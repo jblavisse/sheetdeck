@@ -1,0 +1,25 @@
+services:
+  api:
+    container_name: sheetdeck-api
+    build:
+      context: ./
+      dockerfile: ./docker/backend/Dockerfile
+    restart: always
+    ports:
+      - 8088:80
+    env_file:
+      - stack.env
+    pull_policy: build
+#   database:
+#     container_name: sheetdeck-database
+#     image: mysql:latest
+#     restart: always
+#     environment:
+#         MYSQL_DATABASE: dbname
+#         MYSQL_ROOT_PASSWORD: password
+#     ports:
+#         - 3366:3306
+#     volumes:
+#         - db-data:/var/lib/mysql
+# volumes:
+#     db-data:
